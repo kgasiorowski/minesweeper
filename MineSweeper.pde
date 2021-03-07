@@ -4,7 +4,7 @@ final int puzzleside = 16;
 int cellwidth;
 int cellheight;
 boolean gameOver = false;
-int numBombs = 30;
+int numBombs = 10;
 
 void setup(){
 
@@ -78,6 +78,7 @@ void mouseClickedOnTile(int x, int y, ArrayList<Coordinates> visitedTiles){
             
         }
         revealTile(x, y);
+        
     }else{
         // Do nothing if this is a recursive call
         if(visitedTiles != null)
@@ -125,6 +126,8 @@ void mouseClickedOnTile(int x, int y, ArrayList<Coordinates> visitedTiles){
         }
     
     }
+    
+    checkForWinState();
 
 }
 
@@ -136,19 +139,42 @@ void gameOver(){
     
 }
 
+boolean checkAllTilesUncovered(){
+
+    for(int i = 0; i < minefieldGUIdata.getGridData().length; i++){
+        for(int j = 0; j < minefieldGUIdata.getGridData().length; j++){
+            if(minefieldGUIdata.getTileSymbol(i, j) == '?'){
+                return false;
+            }
+        }
+    }
+
+    return true;
+
+}
+
+void checkForWinState(){
+
+    if(checkAllTilesUncovered()){
+        surface.setTitle("You win! :)");
+        gameOver = true;
+    }
+
+}
+
 void revealTile(int x, int y){
     char symbol;
     int tileData = minefield.getCellData(x,y);
     
     switch(tileData){
         case -1:
-        symbol = 'B';
+            symbol = 'B';
         break;
         case 0:
-        symbol = ' ';
+            symbol = ' ';
         break;
         default:
-        symbol = char(tileData+48);
+            symbol = char(tileData+48);
     }
     
     minefieldGUIdata.setTileSymbol(symbol, x, y);
@@ -172,6 +198,8 @@ void flagTile(int x, int y){
     else if(tileSymbol == 'F')
         minefieldGUIdata.setTileSymbol('?', x, y);
         
+    checkForWinState();    
+    
 }
 
 void mousePressed(){
