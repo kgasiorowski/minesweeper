@@ -24,7 +24,7 @@ void setup(){
 void draw(){
 
   background(255);
-  drawGrid(16);
+  drawGrid(puzzleside);
   for(int i = 0; i < puzzleside; i++){
       for(int j = 0; j < puzzleside; j++){
         char symbol = minefieldGUIdata.getTileSymbol(i, j);
