@@ -79,6 +79,9 @@ void mouseClickedOnTile(int x, int y, ArrayList<Coordinates> visitedTiles){
         }
         revealTile(x, y);
         
+        if(gameOver)
+            return;
+        
     }else{
         // Do nothing if this is a recursive call
         if(visitedTiles != null)
