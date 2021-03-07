@@ -1,24 +1,29 @@
 class Minefield{
 
-  private boolean[][] minefield;
+  private int[][] minefield;
 
   public Minefield(int side, int numMines){
-    this.minefield = new boolean[side][side];
+    this.minefield = new int[side][side];
     generateMines(numMines);
+    generateNumTiles();
   }
 
-  public boolean getCoord(int x, int y){
+  public int getCellData(int x, int y){
     if(x < 0 || y < 0 || x >= this.minefield.length || y >= this.minefield.length){
       throw new IllegalArgumentException();
     }
     return this.minefield[x][y];
   }
   
-  public boolean getCellIsBomb(int x, int y){
-    return minefield[x][y];
+  private void setCellIsBomb(int x, int y){
+      minefield[x][y] = -1;
   }
   
-  public int getNumSurroundingBombs(int x, int y){
+  public boolean getCellIsBomb(int x, int y){
+    return minefield[x][y] == -1;
+  }
+  
+  private int getNumSurroundingBombs(int x, int y){
   
       int numBombs = 0;
       
@@ -52,9 +57,22 @@ class Minefield{
       do{
         randomX = int(random(0, sidelength));
         randomY = int(random(0, sidelength));
-      }while(this.minefield[randomX][randomY] == true);
+      }while(getCellIsBomb(randomX, randomY));
       
-      this.minefield[randomX][randomY] = true;
+      setCellIsBomb(randomX, randomY);
     }
   }
+
+  private void generateNumTiles(){
+  
+      for(int i = 0; i < minefield.length;i++){
+          for(int j = 0; j < minefield.length; j++){
+              if(getCellIsBomb(i, j))
+                  continue;
+               minefield[i][j] = getNumSurroundingBombs(i, j);
+          }
+      }
+  
+  }
+
 }

@@ -52,7 +52,7 @@ void mouseClickedOnTile(int x, int y, ArrayList<Coordinates> visitedTiles){
             symbol = 'B';
             gameOver();
         }else{
-            int numSurroundingBombs = minefield.getNumSurroundingBombs(x, y);
+            int numSurroundingBombs = minefield.getCellData(x, y);
             
             if(numSurroundingBombs == 0){
                 symbol = ' ';
