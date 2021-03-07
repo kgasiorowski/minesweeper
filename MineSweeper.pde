@@ -43,20 +43,15 @@ void mouseClickedOnTile(int x, int y, ArrayList<Coordinates> visitedTiles){
         return;
     
     boolean clickedTileWasBomb = minefield.getCellIsBomb(x, y);
-    char symbol = '?';
-    
     
     if(tileSymbol == '?'){
     
         if (clickedTileWasBomb){
-            symbol = 'B';
             gameOver();
         }else{
             int numSurroundingBombs = minefield.getCellData(x, y);
             
             if(numSurroundingBombs == 0){
-                symbol = ' ';
-                
                 // Recursively uncover tiles which do not have bombs
                 if(visitedTiles == null){
                     visitedTiles = new ArrayList<Coordinates>();
@@ -79,12 +74,10 @@ void mouseClickedOnTile(int x, int y, ArrayList<Coordinates> visitedTiles){
                     }
                 }
                 
-            }else{
-                symbol = char(numSurroundingBombs + 48);
             }
             
         }
-        minefieldGUIdata.setTileSymbol(symbol, x, y);
+        revealTile(x, y);
     }else{
         // Do nothing if this is a recursive call
         if(visitedTiles != null)
@@ -139,6 +132,35 @@ void gameOver(){
 
     surface.setTitle("Game over :(");
     gameOver = true;
+    revealEntireBoard();
+    
+}
+
+void revealTile(int x, int y){
+    char symbol;
+    int tileData = minefield.getCellData(x,y);
+    
+    switch(tileData){
+        case -1:
+        symbol = 'B';
+        break;
+        case 0:
+        symbol = ' ';
+        break;
+        default:
+        symbol = char(tileData+48);
+    }
+    
+    minefieldGUIdata.setTileSymbol(symbol, x, y);
+}
+
+void revealEntireBoard(){
+
+    for(int i = 0; i < minefieldGUIdata.getGridData().length; i++){
+        for(int j = 0; j < minefieldGUIdata.getGridData().length; j++){
+            revealTile(i, j);
+        }
+    }
     
 }
 
