@@ -4,6 +4,7 @@ final int puzzleside = 16;
 int cellwidth;
 int cellheight;
 boolean gameOver = false;
+int numBombs = 30;
 
 void setup(){
 
@@ -12,7 +13,7 @@ void setup(){
   frameRate(60);
   cellwidth = width/puzzleside;
   cellheight = height/puzzleside;
-  minefield = new Minefield(puzzleside, 40);
+  minefield = new Minefield(puzzleside, numBombs);
   minefieldGUIdata = new MinefieldGUIData(puzzleside);
   stroke(0);
   fill(0);
@@ -43,7 +44,6 @@ void mouseClickedOnTile(int x, int y, ArrayList<Coordinates> visitedTiles){
     
     boolean clickedTileWasBomb = minefield.getCellIsBomb(x, y);
     char symbol = '?';
-    SurroundingCellData data = minefield.getSurroundingCells(x, y);
     
     
     if(tileSymbol == '?'){
@@ -52,7 +52,7 @@ void mouseClickedOnTile(int x, int y, ArrayList<Coordinates> visitedTiles){
             symbol = 'B';
             gameOver();
         }else{
-            int numSurroundingBombs = data.getNumSurroundingBombs();
+            int numSurroundingBombs = minefield.getNumSurroundingBombs(x, y);
             
             if(numSurroundingBombs == 0){
                 symbol = ' ';
