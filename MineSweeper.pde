@@ -5,6 +5,8 @@ int cellwidth;
 int cellheight;
 boolean gameOver = false;
 int numBombs = 200;
+boolean botEnabled = true;
+Bot bot;
 
 void setup(){
 
@@ -15,6 +17,7 @@ void setup(){
   cellheight = height/puzzleside;
   minefield = new Minefield(puzzleside, numBombs);
   minefieldGUIdata = new MinefieldGUIData(puzzleside);
+  bot = new Bot(minefieldGUIdata);
   stroke(0);
   fill(0);
   textAlign(CENTER, CENTER);
@@ -31,6 +34,9 @@ void draw(){
         drawLetterAtCoordinates(symbol, i, j);
       }
   }
+
+  if(botEnabled)
+      bot.action();
 
 }
 
@@ -151,7 +157,6 @@ boolean checkAllTilesUncovered(){
             }
         }
     }
-
     return true;
 
 }
@@ -207,7 +212,7 @@ void flagTile(int x, int y){
 
 void mousePressed(){
   
-  if(gameOver)
+  if(botEnabled || gameOver)
       return;
     
   int[] coords = convertMouseClickToGridCoordinates(mouseX, mouseY);
