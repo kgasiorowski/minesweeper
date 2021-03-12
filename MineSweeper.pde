@@ -1,10 +1,10 @@
 Minefield minefield;
 MinefieldGUIData minefieldGUIdata;
-final int puzzleside = 16;
+final int puzzleside = 32;
 int cellwidth;
 int cellheight;
 boolean gameOver = false;
-int numBombs = 10;
+int numBombs = 200;
 
 void setup(){
 

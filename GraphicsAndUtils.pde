@@ -16,7 +16,41 @@ void drawHorizontalLine(int y){
 }
 
 void drawLetterAtCoordinates(char letter, int x, int y){
+  
+    switch(letter){
+    
+        case 'B':
+            fill(255, 0, 0);
+        break;
+        case '1':
+            fill(0, 171, 26);
+        break;
+        case '2':
+            fill(68, 171, 0);
+        break;
+        case '3':
+            fill(136, 194, 0);
+        break;
+        case '4':
+            fill(191, 194, 0);
+        break;
+        case '5':
+            fill(194, 158, 0);
+        break;
+        case '6':
+            fill(194, 120, 0);
+        break;
+        case '7':
+            fill(194, 58, 0);
+        break;
+        default:
+            fill(0);
+        break;
+      
+    }
+  
   text(letter, (x+0.5)*cellwidth, (y+0.5)*cellheight);
+  fill(0);
 }
 
 int[] convertMouseClickToGridCoordinates(int clickX, int clickY){
